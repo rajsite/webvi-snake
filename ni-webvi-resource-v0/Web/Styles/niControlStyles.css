@@ -11,9 +11,27 @@
 /* All of our platforms support woff 1.0 so just use that format */
 @font-face {
     font-family: "NILVJSFontAwesome";
-    src: url("../../jsResources/font-awesome-4.5.0/fonts/fontawesome-webfont.woff") format("woff");
+    src: url("../../node_modules/font-awesome/fonts/fontawesome-webfont.woff") format("woff");
     font-weight: normal;
     font-style: normal;
+}
+
+
+/*************************************
+* Front Panel Canvas styling
+**************************************/
+/* Center the Front Panel on the page horizontally, for run panel and deployed pages */
+.ni-front-panel-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Clip the front panel canvas to its bounds, for run panel and deployed pages */
+.ni-front-panel {
+    position: relative;
+    overflow: hidden;
+    display: block;
 }
 
 /*************************************
@@ -73,6 +91,10 @@ ni-array-viewer {
     display: inline-block;
 }
 
+ni-array-viewer .jqx-scrollbar-button-state-normal-flat {
+    display: block;
+}
+
 /*************************************
 * Boolean Button
 **************************************/
@@ -81,11 +103,18 @@ jqx-toggle-button {
     position: absolute;
 }
 
+jqx-toggle-button .jqx-container {
+    color: inherit;
+    transition: none !important;
+}
+
 jqx-toggle-button .ni-glyph {
     display: inline;
-    font: normal normal normal normal 1em "NILVJSFontAwesome";
+    font: normal normal normal 1em "NILVJSFontAwesome";
+    font-stretch: normal;
     text-decoration: none;
     margin-right: 10px;
+    color: inherit;
 }
 
 
@@ -95,9 +124,17 @@ jqx-toggle-button .ni-text {
     white-space: pre;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: inherit;
 }
 
-jqx-toggle-button .ni-hidden {
+/* Only hide the text when show values are hidden.
+   The user can hide the glyph by setting the glyph to none. */
+jqx-toggle-button .ni-glyph.ni-hidden {
+    display: inline;
+    margin-right: 0px;
+}
+
+jqx-toggle-button .ni-text.ni-hidden {
     display: none;
 }
 
@@ -140,8 +177,8 @@ jqx-power-button {
 }
 
 jqx-power-button .jqx-input:after {
-    font: normal normal normal normal 1em "NILVJSFontAwesome";
-    font-size: 20px;
+    font: normal normal normal 20px "NILVJSFontAwesome";
+    font-stretch: normal;
     text-decoration: none;
 	text-shadow: 0px 1px 1px rgba(250,250,250,0.1);
     content: '\F011';
@@ -441,25 +478,25 @@ ni-cursor-legend .ni-selector-icon {
 /*************************************
 * Check Box
 **************************************/
-jqx-checkbox {
+jqx-check-box {
     position: absolute;
 }
 
-jqx-checkbox .ni-hidden {
+jqx-check-box .ni-hidden {
     display: none;
 }
 
-jqx-checkbox .jqx-label {
+jqx-check-box .jqx-label {
     cursor: pointer;
 }
 
-jqx-checkbox[readonly=""] .jqx-label,
-jqx-checkbox[readonly="true"] .jqx-label {
+jqx-check-box[readonly=""] .jqx-label,
+jqx-check-box[readonly="true"] .jqx-label {
     cursor: default;
 }
 
-jqx-checkbox[readonly=""] .jqx-container,
-jqx-checkbox[readonly="true"] .jqx-container {
+jqx-check-box[readonly=""] .jqx-container,
+jqx-check-box[readonly="true"] .jqx-container {
     cursor: default;
 }
 
@@ -482,11 +519,15 @@ ni-data-grid-column {
     display: none;
 }
 
-ni-data-grid .ni-selected-header {
+ni-data-grid .jqx-grid {
+    border: 1px solid #A9A9A9;
+}
+
+ni-data-grid .jqx-grid-column-header.ni-selected-header {
     background-color: #a8afb7;
 }
 
-ni-data-grid .ni-grid-widget .ni-selected-cell {
+ni-data-grid .ni-grid-widget .jqx-grid-cell.ni-selected-cell {
     border-right: 1px solid #00adef;
 }
 
@@ -512,6 +553,19 @@ ni-data-grid .ni-add-rows-toolbar {
     z-index: 999;
     background-color:  #e8e8e8;
     overflow: hidden;
+}
+
+ni-data-grid .ni-add-rows-toolbar .ni-row-count-text-field-box {
+    border: 1px solid #A9A9A9;
+}
+
+ni-data-grid .ni-add-rows-toolbar .ni-add-rows-button {
+    border: 1px solid #A9A9A9;
+}
+
+ni-data-grid .jqx-grid-cell {
+    box-sizing: border-box;
+    background-color: #F2F2F2
 }
 
 ni-data-grid .jqx-grid-cell-alt {
@@ -544,24 +598,32 @@ ni-data-grid jqx-numeric-text-box input {
     background-color: transparent;
 }
 
-ni-data-grid jqx-numeric-text-box .jqx-numeric-text-box-component {
-    border-width: 0px;
-    border-style: none;
-}
-
 ni-data-grid ni-string-control .ni-text-field {
-    padding: 3px;
-    padding-left: 4px;
     box-sizing: border-box;
     color: #000000;
     background-color: transparent;
-    border-width: 0px;
+    overflow: hidden;
 }
 
 ni-data-grid ni-linear-progress-bar {
     padding: 4px;
     padding-bottom: 6px;
     box-sizing: border-box;
+}
+
+/* Adds a margin between the go to page text box and the counters */
+ni-data-grid .jqx-grid-pager > div :nth-child(3) {
+    margin-left: 5px;
+}
+
+/* Hides the the grid pager list drop down*/
+ni-data-grid .jqx-grid-pager > div :nth-child(4) {
+    display: none;
+}
+
+/* Hides the "Show rows:" text*/
+ni-data-grid .jqx-grid-pager > div :nth-child(5) {
+    display: none;
 }
 
 /*************************************
@@ -579,13 +641,14 @@ ni-enum-selector {
 }
 
 ni-enum-selector .ni-expand-button {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
-/* override jqx default font style */
-ni-enum-selector .jqx-widget {
-	font: inherit;
+ni-enum-selector jqx-drop-down-list {
+    width: 100%;
+    height: 100%;
+    font: inherit;
 }
 
 /*************************************
@@ -1062,27 +1125,26 @@ ni-ring-selector {
     display: inline-block;
 }
 
-ni-ring-selector .ni-ring-numeric-input {
+ni-ring-selector jqx-numeric-text-box {
     display: none;
 }
 
-ni-ring-selector[allow-undefined] .ni-expand-button {
-    width: 75%;
+ni-ring-selector[allow-undefined] jqx-drop-down-list {
+    width: 70%; /* Keep in sync with ni-ring-selector.js*/
     overflow: visible;
 }
 
-ni-ring-selector[allow-undefined] .ni-ring-numeric-input {
+ni-ring-selector[allow-undefined] jqx-numeric-text-box {
     display: block;
     height: 100%;
-    width: 25%;
+    width: 30%;  /* Keep in sync with ni-ring-selector.js*/
     position: absolute;
     top: 0px;
     right: 0px;
 }
 
-/* override jqx default font style */
-ni-ring-selector .jqx-widget,
-ni-ring-selector .jqx-fill-state-normal {
+ni-ring-selector jqx-drop-down-list,
+ni-ring-selector jqx-numeric-text-box {
     font: inherit;
 }
 
@@ -1192,7 +1254,7 @@ ni-string-control {
 ni-string-control .ni-text-field {
     height: 100%;
     width: 100%;
-    border: 1px solid #2b3033;
+    border: 1px solid #A9A9A9;
     border-radius: 0px;
     resize: none;
     padding: 0px;
@@ -1226,10 +1288,14 @@ ni-tab-control > .jqx-ribbon {
     overflow: visible;
 }
 
+ni-tab-control > .jqx-ribbon > .jqx-ribbon-header {
+    border: 1px solid #A9A9A9;
+}
+
 /* wpf is hard coded to 30px tab header in top and bottom, so make sure tab header is always 30px regardless of font size */
 ni-tab-control[tab-strip-placement="Top"] > .jqx-ribbon > .jqx-ribbon-header,
 ni-tab-control[tab-strip-placement="Bottom"] > .jqx-ribbon > .jqx-ribbon-header {
-    height: 30px;
+    height: 30px; 
     min-height: 30px;
     max-height: 30px;
 }
@@ -1255,12 +1321,12 @@ ni-tab-control > .jqx-ribbon > .jqx-ribbon-content {
 
 /* The following selectors make sure the content is the right size / placement in each mode and removes extra borders since the tab header already has borders */
 ni-tab-control[tab-strip-placement="Top"] > .jqx-ribbon > .jqx-ribbon-content {
-    height: calc(100% - 30px);
+    height: calc(100% - 30px); 
     border-top: none;
 }
 
 ni-tab-control[tab-strip-placement="Bottom"] > .jqx-ribbon > .jqx-ribbon-content {
-    height: calc(100% - 30px);
+     height: calc(100% - 30px); 
     border-bottom: none;
 }
 
@@ -1285,8 +1351,13 @@ ni-tab-control > .jqx-ribbon > .jqx-ribbon-selection-token {
 }
 
 /* jqx is forcing a z-index on the scrollbuttons so remove it so tabs can stack without them showing through */
-ni-tab-control > .jqx-ribbon > .jqx-ribbon-scrollbutton {
+ni-tab-control > .jqx-ribbon > .jqx-ribbon-scrollbutton.jqx-ribbon-scrollbutton-both.jqx-widget-header {
     z-index: auto;
+    border: none;
+}
+
+ni-tab-control[tab-strip-placement="Right"] > .jqx-ribbon > .jqx-ribbon-scrollbutton.jqx-ribbon-scrollbutton-both.jqx-widget-header {
+    border-left: 1px solid #A9A9A9;
 }
 
 /* jqx does not detect the size we placed above for the tab header width so force our dimensions on it */
@@ -1297,6 +1368,7 @@ ni-tab-control[tab-strip-placement="Right"] > .jqx-ribbon > .jqx-ribbon-scrollbu
 
 /* override jqx default font style */
 ni-tab-control > .jqx-ribbon,
+ni-tab-control > .jqx-ribbon > .jqx-ribbon-header,
 ni-tab-control > .jqx-ribbon > .jqx-ribbon-header > .jqx-ribbon-item {
     font: inherit;
 }
@@ -1348,9 +1420,10 @@ ni-time-stamp-text-box .ni-time-stamp-box {
     width: 100%;
 }
 
-ni-time-stamp-text-box .jqx-input-content {
+ni-time-stamp-text-box .ni-time-stamp-box .jqx-input-content {
     overflow: hidden;
     text-overflow: ellipsis;
+    border: 1px solid #A9A9A9 !important;
 }
 
 /* override jqx default font style */
@@ -1379,7 +1452,7 @@ ni-url-image .ni-image-box {
 }
 
 ni-url-image[source=""] .ni-image-box {
-    outline: 1px solid black;
+    outline: 1px solid #A9A9A9;
 }
 
 ni-url-image .ni-stretch-uniform {
@@ -1392,6 +1465,25 @@ ni-url-image .ni-stretch-uniformtofill {
 
 ni-url-image .ni-stretch-fill {
     background-size: 100% 100%;
+}
+
+/*************************************
+* Error message when Vireo load fails
+**************************************/
+#ni-failed-to-load-vireo-source {
+    background-color: rgba(235, 235, 245, 0.8);
+    font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+    color: rgb(105, 109, 116);
+    padding: 8px;
+}
+
+#ni-failed-to-load-vireo-message-title {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#ni-failed-to-load-vireo-message-body {
+    font-size: 14px;
 }
 
 /*************************************
